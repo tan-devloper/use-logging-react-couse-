@@ -1,0 +1,8 @@
+.container {
+  padding: 1rem 2rem;
+  border: 2px solid rgba(96, 96, 96, 0.71);
+  border-radius: .25rem;
+  background-color: rgb(233, 233, 233);
+  margin: auto;
+  margin-bottom: 1rem;
+} 
