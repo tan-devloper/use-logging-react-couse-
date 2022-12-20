@@ -1,60 +1,43 @@
-import { useState } from "react";
+import { useRef } from "react";
 import style from "./css/FormInput.module.css";
 import Card from "../UI/Card/Card";
-import Form from "../Form/Form";
 import Button from "../UI/Button/Button";
 
 import isValid from "../../JS/isValid";
 
 const FormInput = (props) => {
-  const [userName, setUserName] = useState("");
-  const [userAge, setUserAge] = useState();
+  const ageInputRef = useRef();
+  const nameInputRef = useRef();
 
-  const setInput = (data, type) => {
-    if (type === "text") {
-      setUserName(data);
-    }
-
-    if (type === "number") {
-      setUserAge(data);
-    }
-  };
-
-  
-  function callbackHandler (message) {
-    props.message(message)
+  function callbackHandler(message) {
+    props.message(message);
   }
 
+
+
   const submitHandler = () => {
-
-    // isValid (object , callback)
-
-
-    if (isValid({name : userName , age : userAge}, callbackHandler)) {
-      props.submittedData({text : userName , number :userAge})
-
-      setUserName("");
-      setUserAge("");
+    const userName = nameInputRef.current.value
+    const userAge = ageInputRef.current.value
+    // isValid (object , 
+      // callback)
+    if (isValid({ name: userName, age: userAge }, callbackHandler)) {
+      props.submittedData({ text: userName, number: userAge });
     }
+    nameInputRef.current.value = ''
+    ageInputRef.current.value = ''
   };
 
-  
   return (
     <Card className={style.w40}>
-      <Form
-        value={userName}
-        key="text"
-        type="text"
-        title="User Name"
-        onChange={setInput}
-      />
-      <Form
-        value={userAge}
-        key="number"
-        type="number"
-        title="User Age"
-        onChange={setInput}
-      />
+      <div className={style.container}>
+        <label>User Name</label>
+        <input ref={nameInputRef} />
+      </div>
+
+      <div className={style.container}>
+        <label>User Age</label>
+        <input ref={ageInputRef} />
+      </div>
       <Button content="Add User " onSubmit={submitHandler} />
     </Card>
   );
